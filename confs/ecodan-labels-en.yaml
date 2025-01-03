@@ -1,0 +1,17 @@
+substitutions:
+  heatpump_climate_room_0: Thermostat room 0
+  heatpump_climate_room_1: Thermostat room 1
+  heatpump_climate_room_2: Thermostat room 2
+  heatpump_climate_room_3: Thermostat room 3
+  heatpump_climate_room_4: Thermostat room 4
+  heatpump_climate_room_5: Thermostat room 5
+  heatpump_climate_room_6: Thermostat room 6
+  heatpump_climate_room_7: Thermostat room 7
+
+  wifi_signal_proc: WiFi Signal %
+  wifi_signal_db: WiFi Signal dB
+  esp_ip: ESP IP
+  internal_esp_temperature: ESP Internal Temperature
+  esp_sidd: ESP SSID
+  uptime: ESP Uptime
+  esp_version: ESP Version

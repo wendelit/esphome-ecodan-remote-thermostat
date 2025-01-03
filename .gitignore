@@ -1,0 +1,11 @@
+.vscode
+.pio
+.esphome
+venv
+Firmware.bin
+sdkconfig.esp32dev
+CMakeLists.txt
+firmware.bin
+components/ecodan/__pycache__/*
+secrets.yaml
+.DS_Store
