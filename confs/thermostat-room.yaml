@@ -1,0 +1,27 @@
+api:
+  actions:
+    - action: set_climate_temperature_room_${room_identifier}
+      variables:
+        temperature: float
+      then:
+        - lambda: |-
+            id(ecodan_instance).set_room_thermostat_current_temp(temperature, ${room_identifier});
+
+
+climate:
+  - platform: ecodan
+    heatpump_climate_room_${room_identifier}:
+      name: ${room_name}
+      id: heatpump_climate_room_${room_identifier}
+      room_identifier: ${room_identifier}
+      thermostat_climate_mode: true
+      get_status_func: |-
+        return id(ecodan_instance).get_status();
+      get_target_temp_func: |-
+        auto& status = id(ecodan_instance).get_status();
+        return status.TargetRoomTemperatures[${room_identifier}] != 0xff ? status.TargetRoomTemperatures[${room_identifier}] : 0.0f;
+      target_temp_func: |-
+        id(ecodan_instance).set_room_thermostat_target_temp(x, esphome::ecodan::ClimateRoomIdentifier::ROOM_${room_identifier});
+      current_temp_func: |-
+        auto& status = id(ecodan_instance).get_status();
+        return status.CurrentRoomTemperatures[${room_identifier}] != 0xff ? status.CurrentRoomTemperatures[${room_identifier}] : 0.0f;

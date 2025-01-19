@@ -23,18 +23,13 @@ external_components:
 
 packages:
  esp32: !include confs/esp32s3.yaml
- thermostat-room-0: !include confs/thermostat-room-0.yaml
- thermostat-room-1: !include confs/thermostat-room-1.yaml
-#  thermostat-room-2: !include confs/thermostat-room-2.yaml
-#  thermostat-room-3: !include confs/thermostat-room-3.yaml
-#  thermostat-room-4: !include confs/thermostat-room-4.yaml
-#  thermostat-room-5: !include confs/thermostat-room-5.yaml
-#  thermostat-room-6: !include confs/thermostat-room-6.yaml
-#  thermostat-room-7: !include confs/thermostat-room-7.yaml
+ thermostat-room-0: !include { file: confs/thermostat-room.yaml, vars: { room_identifier: 0, room_name: "Room 1" } }
+ thermostat-room-1: !include { file: confs/thermostat-room.yaml, vars: { room_identifier: 1, room_name: "Room 2" } }
+# up to 8 thermostats can be defined. 0-7.
 
 # change language labels to -en for English or -nl for Dutch
  substitutions: !include confs/ecodan-labels-en.yaml
-# dbg: !include confs/debug.yaml
+ dbg: !include confs/debug.yaml
  wifi: !include confs/wifi.yaml
 
 # external_components:
