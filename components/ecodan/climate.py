@@ -21,7 +21,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
         cv.Optional("heatpump_climate_room_1"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -31,7 +31,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
         cv.Optional("heatpump_climate_room_2"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -41,7 +41,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
         cv.Optional("heatpump_climate_room_3"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -51,7 +51,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
         cv.Optional("heatpump_climate_room_4"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -61,7 +61,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
         cv.Optional("heatpump_climate_room_5"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -71,7 +71,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
         cv.Optional("heatpump_climate_room_6"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -81,7 +81,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
         cv.Optional("heatpump_climate_room_7"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -91,7 +91,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.Optional("current_temp_func"): cv.string,
                 cv.Optional("room_identifier"): cv.uint8_t,
                 cv.Optional("thermostat_climate_mode"): cv.boolean,
-            }).extend(cv.polling_component_schema('100ms')),
+            }).extend(cv.polling_component_schema('250ms')),
     })
 
 

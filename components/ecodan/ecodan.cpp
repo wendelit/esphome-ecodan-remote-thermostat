@@ -12,7 +12,7 @@ namespace ecodan
             auto room_index = static_cast<uint8_t>(room);
             status.TargetRoomTemperatures[room_index] = temp;
 
-            // dispatch set to hp
+            // values are dispatched via regular loop
         }
     }
 
