@@ -20,7 +20,7 @@
 |fc |4c | 4 | 3 |10 | 32 | 3 | ff| 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |69 |
 * cf : Configuration?
 
-# Reply inital settings (CNRF > Wrieless)
+# Reply inital settings (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 |SYN|TYP|   |   | SZ|CMD |   |   |Z1 |   |   |   | ? |   |?  |   |?  |   | z2| ? |   |CHK| 
@@ -38,15 +38,16 @@
 * ff : Where controller not in use
 * cf : Configuration?
 
-# Normal Reply (CNRF > Wrieless)
+# Normal Reply (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |   |EC |z1 |   |HW |   | ? |   |   |EC |   |z2 | ? |   |   |CHK|
+|SYN|TYP|   |   | SZ|CMD |Z1A? |EC |z1 |   |HW |   | ? |   |   |EC |   |z2 |Z2A? |   |   |CHK|
 |fc |68 | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |0  | a4| 2 | 0 | 0 | f |    (During normal op state)
 |fc |68 | 4 | 3 |10 | 0  | 1 | 0 | a2| 0 | 0 | 0 | 5 | 0 |21 |90 |0  | a2| 2 | 0 | 0 | 84|    (During Error 1 State/J0 on FTC)
 |fc |68 | 4 | 3 | 10 | 0 | 1 | 1 | a2| 0 | 1 | 0 | 5 | 0 |21 | 0 |0  | a2| 2 | 0 | 0 |12 |    (During Hot Water Boost)
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
+* Z1/Z2A : Zone 1/2 Active Input Temperature?
 * HW : Hot Water Boost Active
 * EC : Error Code?
 
@@ -68,7 +69,7 @@
 * cf : Configuration?
 
 
-# Reply Request Hot Water (CNRF > Wrieless)
+# Reply Request Hot Water (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 |SYN|TYP|   |   | SZ|CMD |   |   |Z1 |   | HW |   | ? |   |?  |   |?  |   | z2| ? |   |CHK| 
@@ -78,7 +79,7 @@
 * HW : Hot Water Boost
 * assumes there are holiday mode and forced hot water status in here too
 
-# Set Reply (CNRF > Wrieless)
+# Set Reply (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 |SYN|TYP|   |   | SZ|CMD |   |   |z1 |   |   |   | ? |   |   |   |   |z2 |   |   |   |CHK| 
