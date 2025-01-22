@@ -10,15 +10,16 @@ namespace ecodan
         {
             switch (res.payload_type<GetType>())
             {
-            case GetType::THERMOSTAT_STATE_A:
-                status.Zone1SetTemperature = res.get_float8_v3(3);
-                status.Zone2SetTemperature = res.get_float8_v3(13);
-                //publish_state("", static_cast<float>());
-                break;
-            case GetType::THERMOSTAT_STATE_B_RES:
-                for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
-                    status.TargetRoomTemperatures[i] = res[1+i] != 0xff ?
-                        res.get_float8_v3(3) : 0xff;
+            case GetType::THERMOSTAT_STATE_RES:
+                if (res.type() == MsgType::THERMOSTAT_INITIAL_GET_RES) {
+                    status.Zone1SetTemperature = res.get_float8_v3(3);
+                    status.Zone2SetTemperature = res.get_float8_v3(13);
+                }
+                else {
+                    for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
+                        status.TargetRoomTemperatures[i] = res[1+i] != 0xff ?
+                            res.get_float8_v3(3) : 0xff;
+                    }
                 }
                 break;
             default:

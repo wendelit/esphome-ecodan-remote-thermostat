@@ -37,7 +37,7 @@ namespace ecodan
     #define MAX_STATUS_CMD_SIZE 2
     Message statusCmdQueue[MAX_STATUS_CMD_SIZE] = {
         // initial request
-        Message{MsgType::THERMOSTAT_INITIAL_GET, std::array<char, PAYLOAD_SIZE> { static_cast<char>(GetType::THERMOSTAT_STATE_A), 0x03, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
+        Message{MsgType::THERMOSTAT_INITIAL_GET, GetType::THERMOSTAT_STATE_A},
         Message{MsgType::THERMOSTAT_GET, GetType::THERMOSTAT_STATE_B} 
     };
 
@@ -61,8 +61,6 @@ namespace ecodan
                     cmd[1+i] = 0xff;
                 }
             }
-            cmd[9] = 3;
-            cmd[10] = 0xff;
         }
 
         if (!serial_tx(uart_, cmd))

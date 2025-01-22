@@ -120,7 +120,7 @@ namespace ecodan
 
         THERMOSTAT_STATE_A = 0x32,
         THERMOSTAT_STATE_B = 0x27,
-        THERMOSTAT_STATE_B_RES = 0x00
+        THERMOSTAT_STATE_RES = 0x00
     };
 
     template <class T>
