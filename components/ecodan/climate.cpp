@@ -27,7 +27,7 @@ namespace ecodan
 
         // handle update from other sources than this component 
         // (after 60s to allow HP to process the value before reading back)
-        auto allow_refresh = std::chrono::steady_clock::now() - this->last_update > std::chrono::seconds(60);
+        auto allow_refresh = std::chrono::steady_clock::now() - this->last_update > std::chrono::seconds(30);
         if (this->get_target_temp != nullptr && allow_refresh) {
             float target_temp = this->get_target_temp();
             if (this->target_temperature != target_temp && !std::isnan(target_temp)) {
@@ -39,24 +39,20 @@ namespace ecodan
 
         auto& status = this->get_status();
         auto new_action = climate::CLIMATE_ACTION_IDLE;
+        auto room = static_cast<uint8_t>(this->climate_room_identifier);
 
         switch (status.HeatingCoolingMode) {
             case ecodan::Status::HpMode::HEAT_ROOM_TEMP:
             case ecodan::Status::HpMode::HEAT_FLOW_TEMP:
             case ecodan::Status::HpMode::HEAT_COMPENSATION_CURVE:
-                if (allow_refresh) {
-                    if (this->mode != climate::ClimateMode::CLIMATE_MODE_HEAT) {
+                if (allow_refresh && this->mode != climate::ClimateMode::CLIMATE_MODE_HEAT) {
                         this->mode = climate::ClimateMode::CLIMATE_MODE_HEAT;
                         should_publish = true;
-                    }
-
-                    auto room = static_cast<uint8_t>(this->climate_room_identifier);
-                    if (this->action != climate::CLIMATE_ACTION_HEATING
-                        && status.CurrentRoomTemperatures[room] != 0xff && status.TargetRoomTemperatures[room] != 0xff 
-                        && status.CurrentRoomTemperatures[room] <= status.TargetRoomTemperatures[room]) {
-                        
-                        new_action = climate::CLIMATE_ACTION_HEATING;
-                    }
+                }
+                if (status.CurrentRoomTemperatures[room] != 0xff && status.TargetRoomTemperatures[room] != 0xff 
+                    && status.CurrentRoomTemperatures[room] <= status.TargetRoomTemperatures[room]) {
+                    
+                    new_action = climate::CLIMATE_ACTION_HEATING;
                 }
             break;
             case ecodan::Status::HpMode::COOL_ROOM_TEMP:
@@ -67,9 +63,7 @@ namespace ecodan
                         should_publish = true;
                     }
 
-                    auto room = static_cast<uint8_t>(this->climate_room_identifier);
-                    if (this->action != climate::CLIMATE_ACTION_COOLING
-                        && status.CurrentRoomTemperatures[room] != 0xff && status.TargetRoomTemperatures[room] != 0xff 
+                    if (status.CurrentRoomTemperatures[room] != 0xff && status.TargetRoomTemperatures[room] != 0xff 
                         && status.CurrentRoomTemperatures[room] >= status.TargetRoomTemperatures[room]) {
                         
                         new_action = climate::CLIMATE_ACTION_COOLING;
