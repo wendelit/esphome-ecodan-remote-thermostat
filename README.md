@@ -1,37 +1,12 @@
-# ESPHome Ecodan heatpump
-It was based on https://github.com/rbroker/ecodan-ha-local. I've also managed to reverse engineer quite some additional properties and controls.
-- 0x03 : error codes
-- 0x05 : heat source
-- 0x0B : refrigerant liquid temperature
-- 0x10 : In1, In5, In6 thermostat status
-- 0x14 : booster / immersion heater states
-- 0x15 : pump status
-- 0x28 : forced dhw status 
-- 0x35 : room temp setpoint (signed) with flags
-- 0xC9 : configuration command. It reports back controller version and much more, need more investigation.
+# ESPHome Ecodan Remote Thermostat
+Mimics a remote thermostat over CNRF. You can use any thermostat/temp sensor as a remote thermostat. This projects supports up to 8 remote thermostats. No need to buy the PARxx units. The required hardware is the same as used by https://github.com/gekkekoe/esphome-ecodan-hp
 
 # available languages
-English (default), Dutch, Italian, French, Spanish. Select the language in `ecodan-esphome.yaml` file. 
+English (default), Dutch, Italian, French, Spanish. Select the language in `ecodan-remote-thermostat-esphome.yaml` file. 
 If you want to contribute with a translation: copy the file `ecodan-labels-en.yaml` to `ecodan-labels-xx.yaml`, fill in all the labels and submit a pull request.
-
-# proxy mode: run melcloud wifi / procon as slave
-It's possible to run a melcloud wifi adapter or procon as slave. The slave unit will function as usual.
-[see proxy.md for more information](proxy.md)
-
-# server control + prohibit dhw/heating/cooling enabled by default
-In sever control mode, the prohibit flags can be set. You can disable it by commenting the `sever-control.yaml` entry in the `ecodan-esphome.yaml`.
 
 # recommended hardware
 If you don't want to solder, use one of the tested boards. [More boards that should be working](https://github.com/SwiCago/HeatPump/issues/13#issuecomment-457897457). It also should work for airco units with cn105 connectors. 
-
-Tested boards
-
-| Board | Link | Notes |
-|:---|:----:|:---|
-| Heishamon V5 large | https://www.tindie.com/products/thehognl/heishamon-communication-pcb/ | [see proxy.md](proxy.md) |
-| M5Stack Atom Lite (ESP32 variants) | https://docs.m5stack.com/en/core/ATOM%20Lite | Grove ports used |
-| M5Stack Atom Lite (ESP32 variants) | https://docs.m5stack.com/en/core/ATOM%20Lite | Pins used [example](confs/m5stack-atom-lite-proxy.md) |
-| M5Stack Atom Lite S3 (ESP32-S3 variants) | https://docs.m5stack.com/en/core/AtomS3%20Lite | Grove ports used |
 
 Cable
 * Get one of the grove female cable and a ST PAP-05V-S connector. Remove one end of the grove connector and replace it with a ST PAP-05V-S connector. Here's an example:
@@ -58,7 +33,7 @@ JST PAP-05V-S connector
 https://www.digikey.nl/en/products/detail/jst-sales-america-inc/PAP-05V-S/759977
 
 
-# build esphome-ecodan-hp firmware
+# build esphome-ecodan-remote-thermostat firmware
 ### Build via cmd line:
 * Install ESPHome https://esphome.io/guides/getting_started_command_line.html
     ```console
@@ -67,57 +42,70 @@ https://www.digikey.nl/en/products/detail/jst-sales-america-inc/PAP-05V-S/759977
     pip3 install wheel
     pip3 install esphome
     ```
-* Fill in `secrets.yaml` and copy the `ecodan-esphome.yaml` to your esphome folder and edit the values (*check GPO pins (uart: section), you might need to swap the pins in the config*)
+* Fill in `secrets.yaml` and copy the `ecodan-remote-thermostat-esphome.yaml` to your esphome folder and edit the values (*check GPO pins (uart: section), you might need to swap the pins in the config*)
 The secrets.yaml should at least contain the following entries:
 ```
 wifi_ssid: "wifi network id"
 wifi_password: "wifi password"
 ```
-* Edit the following section in `ecodan-esphome.yaml` to match your configuration (esp board, zone1/zone2, language, server control, enable debug). Default is an esp32-s3 board, 1 zone and english language.
+* Edit the following section in `ecodan-remote-thermostat-esphome.yaml` to match your configuration (esp board, zone1/zone2, language, server control, enable debug). Default is an esp32-s3 board, 1 zone and english language.
 
 ```
 packages:
+# up to 8 thermostats can be defined. 0-7.
+  thermostat-room-0: !include { file: confs/thermostat-room.yaml, vars: { room_identifier: 0, room_name: "Room 1" } }
+#  thermostat-room-1: !include { file: confs/thermostat-room.yaml, vars: { room_identifier: 1, room_name: "Room 2" } }
   remote_package:
-    url: https://github.com/gekkekoe/esphome-ecodan-hp/
+    url: https://github.com/gekkekoe/esphome-ecodan-remote-thermostat
     ref: main
     refresh: always
     files: [ 
-            confs/esp32s3.yaml, # confs/esp32.yaml, for regular board
-            confs/zone1.yaml,
-            ## enable if you want to use zone 2
-            #confs/zone2.yaml,
+            confs/esp32s3.yaml,
             ## enable label language file
             confs/ecodan-labels-en.yaml,
             #confs/ecodan-labels-nl.yaml,
             #confs/ecodan-labels-it.yaml,
             #confs/ecodan-labels-fr.yaml,
-            #confs/ecodan-labels-es.yaml,
             confs/server-control.yaml,
             #confs/debug.yaml,
+            confs/wifi.yaml,
            ]
+
 ```
 
 * Build
 ```console
-esphome compile ecodan-esphome.yaml
+esphome ecodan-remote-thermostat-esphome.yaml
 ```
-* To find the tty* where the esp32 is connected at, use `sudo dmesg | grep tty`. On my machine it was `ttyACM0` for usb-c, and `ttyUSB0` for usb-a.
+* To find the tty* where the esp32 is connected at, use `sudo dmesg | grep tty`. On my machine it was `ttyACM0` for usb-c, and `ttyUSB0` for usb-a. On a Mac its `tty.usbmodemxxx`
 * Connect your esp32 via usb and flash
 ```console 
-esphome upload --device=/dev/ttyACM0 ecodan-esphome.yaml
+esphome upload --device=/dev/ttyACM0 ecodan-remote-thermostat-esphome.yaml
 ```
-* You can update the firmware via de web interface of the esp after the initial flash, or use the following command to flash over the network
+* You can update the firmware via the web interface of the esp after the initial flash, or use the following command to flash over the network
 ```console 
-esphome upload --device ip_address ecodan-esphome.yaml
+esphome upload --device ip_address ecodan-remote-thermostat-esphome.yaml
+```
+The esphome component will be auto detected in Home Assistant. In Home Assistant you need to enable actions. See https://esphome.io/components/api.html#actions
+Perform the following steps:
+
+```
+  1. Find your device in the device list
+  2. Click the “configure” button next to it
+  3. Check the “Allow the device to perform Home Assistant actions” box
+  4. Then click “submit”.
 ```
 
-Here's how it's connected inside the heatpump:
+Depending on how many remote thermostats you have configured the following actions will become available: `set_climate_temperature_room_0`, `set_climate_temperature_room_1`, .. `set_climate_temperature_room_7` 
 
-![image](https://github.com/gekkekoe/esphome-ecodan-hp/blob/main/img/m5stack_installed.jpg?raw=true)
+Use these actions to link your thermostat to a temp sensor or any other thermostat. Update this value when the source changes. 
+You can manually test (if everything is correct) by performing the following steps in Home Assistant:
+```
+  1. Click Developer tools and select the actions tab
+  2. Select action set_climate_temperature_room_0
+  3. Fill the temperature field and click perform action
+```
 
-The esphome component will be auto detected in Home Assistant:
-
-![image](https://github.com/gekkekoe/esphome-ecodan-hp/blob/main/img/ha-integration.png?raw=true)
-
+Your thermostat is then updated with the new temperature.
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/gekkekoe)
