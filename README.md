@@ -66,7 +66,6 @@ packages:
             #confs/ecodan-labels-nl.yaml,
             #confs/ecodan-labels-it.yaml,
             #confs/ecodan-labels-fr.yaml,
-            confs/server-control.yaml,
             #confs/debug.yaml,
             confs/wifi.yaml,
            ]
@@ -86,6 +85,10 @@ esphome upload --device=/dev/ttyACM0 ecodan-remote-thermostat-esphome.yaml
 ```console 
 esphome upload --device ip_address ecodan-remote-thermostat-esphome.yaml
 ```
+
+# Installation
+Power down your unit (use circuit breaker!) and plug the flashed unit into the CNRF port. It's near the regular CN105 port. Turn `SW1-8` to on to enable the remote thermostat. Restore the power and select the remote thermostat as thermostat.
+
 The esphome component will be auto detected in Home Assistant. In Home Assistant you need to enable actions. See https://esphome.io/components/api.html#actions
 Perform the following steps:
 
