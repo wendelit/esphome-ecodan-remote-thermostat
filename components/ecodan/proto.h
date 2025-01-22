@@ -32,8 +32,8 @@ namespace ecodan
         THERMOSTAT_INITIAL_GET_RES = 0x6C,
         THERMOSTAT_GET = 0x48,
         THERMOSTAT_GET_RES = 0x68,
-        THERMOSTAT_SET = 0x48,
-        THERMOSTAT_SET_RES = 0x68
+        THERMOSTAT_SET = 0x49,
+        THERMOSTAT_SET_RES = 0x69
     };
 
     enum class SetType : uint8_t
@@ -119,7 +119,8 @@ namespace ecodan
         HARDWARE_CONFIGURATION = 0xC9,
 
         THERMOSTAT_STATE_A = 0x32,
-        THERMOSTAT_STATE_B = 0x27
+        THERMOSTAT_STATE_B = 0x27,
+        THERMOSTAT_STATE_B_RES = 0x00
     };
 
     template <class T>

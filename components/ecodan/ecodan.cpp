@@ -135,7 +135,7 @@ namespace ecodan
             
             // interpret message
             
-            ESP_LOGE(TAG, res_buffer_.debug_dump_packet().c_str());
+            //ESP_LOGE(TAG, res_buffer_.debug_dump_packet().c_str());
             handle_response(res_buffer_);
             res_buffer_ = Message();
         }

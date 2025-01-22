@@ -15,14 +15,15 @@ namespace ecodan
                 status.Zone2SetTemperature = res.get_float8_v3(13);
                 //publish_state("", static_cast<float>());
                 break;
-            case GetType::THERMOSTAT_STATE_B:
+            case GetType::THERMOSTAT_STATE_B_RES:
                 for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
-                    status.CurrentRoomTemperatures[i] = res[1+i] != 0xff ?
+                    status.TargetRoomTemperatures[i] = res[1+i] != 0xff ?
                         res.get_float8_v3(3) : 0xff;
                 }
                 break;
             default:
-                ESP_LOGI(TAG, "Unknown response type received on serial port: %u", static_cast<uint8_t>(res.payload_type<GetType>()));
+                if (static_cast<uint8_t>(res.payload_type<GetType>()) != 0)
+                    ESP_LOGI(TAG, "Unknown response type received on serial port: %u", static_cast<uint8_t>(res.payload_type<GetType>()));
                 break;
             }
         }
@@ -43,6 +44,8 @@ namespace ecodan
             handle_set_response(res);
             break;
         case MsgType::GET_RES:
+        case MsgType::THERMOSTAT_INITIAL_GET_RES:
+        case MsgType::THERMOSTAT_GET_RES:
         case MsgType::CONFIGURATION_RES:
             handle_get_response(res);
             break;
