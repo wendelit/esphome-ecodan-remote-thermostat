@@ -7,26 +7,25 @@
 
 namespace esphome {
 namespace ecodan 
-{
-    
-//    void EcodanHeatpump::set_room_temperature(float newTemp, esphome::ecodan::SetZone zone)
-//     {
-//         Message cmd{MsgType::SET_CMD, SetType::ROOM_SETTINGS};
+{    
+    void EcodanHeatpump::set_room_thermostat_target_temp(float temp, ClimateRoomIdentifier room) {
+        if (temp != NAN) {
+            auto room_index = static_cast<uint8_t>(room);
+            status.TargetRoomTemperatures[room_index] = temp;
 
-//         if (zone == SetZone::ZONE_1) {
-//             cmd[1] = 0x02;
-//             cmd.set_float16(newTemp, 4);
-//         }
-//         else if (zone == SetZone::ZONE_2) {
-//             cmd[1] = 0x08;
-//             cmd.set_float16(newTemp, 6);
-//         }
-
-//         cmd[3]= status.HeatingCoolingMode == Status::HpMode::COOL_ROOM_TEMP || status.HeatingCoolingMode == Status::HpMode::COOL_FLOW_TEMP 
-//             ? 1 : 0;
-
-//         schedule_cmd(cmd);
-//     }
+            Message cmd{MsgType::THERMOSTAT_SET, SetType::THERMOSTAT_TEMPERATURE_SETTINGS};
+            for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
+                if (i + i == room_index) {
+                    auto roundedTemp = round_nearest_half(status.TargetRoomTemperatures[i]);
+                    cmd.set_float8_v3(roundedTemp, 1+i);
+                }
+                else {
+                    cmd[1+i] = 0xff;
+                }
+            }
+            schedule_cmd(cmd);
+        }
+    }
 
     bool EcodanHeatpump::schedule_cmd(Message& cmd)
     {   

@@ -41,7 +41,9 @@ namespace ecodan
         BASIC_SETTINGS = 0x32,
         CONTROLLER_SETTING = 0x34,
         ROOM_SETTINGS = 0x35,
-        REMOTE_ROOM_SETTINGS = 0x07
+        REMOTE_ROOM_SETTINGS = 0x07, 
+        THERMOSTAT_TEMPERATURE_SETTINGS = 0x28,
+        THERMOSTAT_DHW_SETTINGS = 0x29
     };
 
     enum class CONTROLLER_FLAG : uint8_t

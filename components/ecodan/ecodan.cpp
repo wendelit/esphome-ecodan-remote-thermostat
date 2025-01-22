@@ -7,15 +7,6 @@ namespace ecodan
         heatpumpInitialized = initialize();
     }
 
-    void EcodanHeatpump::set_room_thermostat_target_temp(float temp, ClimateRoomIdentifier room) {
-        if (temp != NAN) {
-            auto room_index = static_cast<uint8_t>(room);
-            status.TargetRoomTemperatures[room_index] = temp;
-
-            // values are dispatched via regular loop
-        }
-    }
-
     void EcodanHeatpump::set_room_thermostat_current_temp(float temp, uint8_t room) {
         if (temp != NAN && room < 8 && room >= 0) {
             status.CurrentRoomTemperatures[room] = temp;
