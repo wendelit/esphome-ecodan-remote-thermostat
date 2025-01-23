@@ -1,5 +1,5 @@
 # ESPHome Ecodan Remote Thermostat
-Mimics a remote thermostat over CNRF. You can use any thermostat/temp sensor as a remote thermostat. This projects supports up to 8 remote thermostats. No need to buy the PARxx units. The required hardware is the same as used by https://github.com/gekkekoe/esphome-ecodan-hp
+Mimics a remote thermostat over CNRF. You can use any thermostat/temp sensor as a remote thermostat. This projects supports up to 8 remote thermostats. Use any temperature sensor or thermostat as data source for the Ecodan heatpump. The required hardware is the same as used by https://github.com/gekkekoe/esphome-ecodan-hp
 
 # available languages
 English (default), Dutch, Italian, French, Spanish. Select the language in `ecodan-remote-thermostat-esphome.yaml` file. 
@@ -48,9 +48,12 @@ The secrets.yaml should at least contain the following entries:
 wifi_ssid: "wifi network id"
 wifi_password: "wifi password"
 ```
-* Edit the following section in `ecodan-remote-thermostat-esphome.yaml` to match your configuration (esp board, zone1/zone2, language, server control, enable debug). Default is an esp32-s3 board, 1 zone and english language.
-
+* Edit the following section in `ecodan-remote-thermostat-esphome.yaml` to match your configuration. ESPhome (currently) does not support remote yaml file templating. You probably need to download the `thermostat-room.yaml` file in a `conf` subfolder of the folder where your `ecodan-remote-thermostat-esphome.yaml` is stored. Then configure up to 8 remote thermostats. Use the commented line as template (don't forget to replace `thermostat-room-1` and `room_identifier: 1`):
+```yaml
+thermostat-room-1: !include { file: confs/thermostat-room.yaml, vars: { room_identifier: 1, room_name: "Room 2" } }
 ```
+
+```yaml
 packages:
 # up to 8 thermostats can be defined. 0-7.
   thermostat-room-0: !include { file: confs/thermostat-room.yaml, vars: { room_identifier: 0, room_name: "Room 1" } }
