@@ -81,7 +81,7 @@ namespace ecodan
 
         if (should_publish) {
             //ESP_LOGE(TAG, "publish: %d", should_publish);
-            this->last_update = std::chrono::steady_clock::now();
+            //ßßthis->last_update = std::chrono::steady_clock::now();
             this->publish_state();
         }        
     }
