@@ -14,6 +14,8 @@ namespace ecodan
                 if (res.type() == MsgType::THERMOSTAT_INITIAL_GET_RES) {
                     status.Zone1SetTemperature = res.get_float8_v3(3);
                     status.Zone2SetTemperature = res.get_float8_v3(13);
+                    status.set_operation_mode(res[2]);
+                    status.set_heating_cooling_mode(res[4]);
                 }
                 else {
                     for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {

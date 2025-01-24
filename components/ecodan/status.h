@@ -17,15 +17,37 @@ namespace ecodan
             COOL_FLOW_TEMP = 4
         };
 
+        enum class OperationMode : uint8_t
+        {
+            UNAVAILABLE = 255,
+            OFF = 0,
+            DHW_ON = 1,
+            HEAT_ON = 2, // Heating
+            COOL_ON = 3, // Cooling
+            FROST_PROTECT = 5,
+            LEGIONELLA_PREVENTION = 6
+        };
+
         bool Initialized = false;
 
-        HpMode HeatingCoolingMode = HpMode::HEAT_ROOM_TEMP;
+        HpMode HeatingCoolingMode = HpMode::OFF;
+        OperationMode Operation = OperationMode::UNAVAILABLE;
         
         float Zone1SetTemperature{NAN};
         float Zone2SetTemperature{NAN};
 
         float CurrentRoomTemperatures[8] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
         float TargetRoomTemperatures[8] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+
+        void set_operation_mode(uint8_t mode)
+        {
+            Operation = static_cast<OperationMode>(mode);
+        }
+
+        void set_heating_cooling_mode(uint8_t mode)
+        {
+            HeatingCoolingMode = static_cast<HpMode>(mode);
+        }        
     };
 
 } // namespace ecodan

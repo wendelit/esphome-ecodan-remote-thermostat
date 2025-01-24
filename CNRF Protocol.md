@@ -23,10 +23,24 @@
 # Reply inital settings (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |   |   |Z1 |   |   |   | ? |   |?  |   |?  |   | z2| ? |   |CHK| 
+|SYN|TYP|   |   | SZ|CMD |   | O | Z1| OM |   |   | ? |   |?  |   |?  |   | z2| ? |   |CHK| 
 |fc |6c | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |ac | 0 | a4| 2 | 0 |5f |
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
+* O Operation
+  * 0 : Off
+  * 1 : Hot Water On
+  * 2 : Heating On
+  * 3 : Cooling On
+  * 5 : Frost Protect
+  * 6 : Legionella
+* OP - Operation Mode: 
+  * 0 : Temperature Mode (heating)
+  * 1 : Flow Control Mode (heating)
+  * 2 : Compensation Curve Mode
+  * 3 : Temperature Mode (cooling)
+  * 4 : Flow Control Mode (cooling)
+  
 * assumes there are holiday mode and forced hot water status in here too
 
 # Normal Request (Wireless > CNRF)
@@ -41,12 +55,25 @@
 # Normal Reply (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |Z1A? |EC |z1 |   |HW |   | ? |   |   |EC |   |z2 |Z2A? |   |   |CHK|
+|SYN|TYP|   |   | SZ|CMD |Z1A?| O |z1 | OP| HW |   | ? |   |   |EC |   |z2 |Z2A? |   |   |CHK|
 |fc |68 | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |0  | a4| 2 | 0 | 0 | f |    (During normal op state)
 |fc |68 | 4 | 3 |10 | 0  | 1 | 0 | a2| 0 | 0 | 0 | 5 | 0 |21 |90 |0  | a2| 2 | 0 | 0 | 84|    (During Error 1 State/J0 on FTC)
 |fc |68 | 4 | 3 | 10 | 0 | 1 | 1 | a2| 0 | 1 | 0 | 5 | 0 |21 | 0 |0  | a2| 2 | 0 | 0 |12 |    (During Hot Water Boost)
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
+* O Operation
+  * 0 : Off
+  * 1 : Hot Water On
+  * 2 : Heating On
+  * 3 : Cooling On
+  * 5 : Frost Protect
+  * 6 : Legionella
+* OP - Operation Mode: 
+  * 0 : Temperature Mode (heating)
+  * 1 : Flow Control Mode (heating)
+  * 2 : Compensation Curve Mode
+  * 3 : Temperature Mode (cooling)
+  * 4 : Flow Control Mode (cooling)
 * Z1/Z2A : Zone 1/2 Active Input Temperature?
 * HW : Hot Water Boost Active
 * EC : Error Code?
