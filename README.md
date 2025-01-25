@@ -126,7 +126,7 @@ In this example the climate.kantoor `current_temperature` attribute is linked as
         - climate.kantoor
   conditions:
     - condition: template
-      value_template: "{{ trigger.from_state.currennt_temperature != trigger.to_state.current_temperature }}"
+      value_template: "{{ trigger.from_state.attributes.current_temperature != trigger.to_state.attributes.current_temperature }}"
   actions:
     - action: esphome.ecodan_thermostat_set_climate_temperature_room_0
       data:
