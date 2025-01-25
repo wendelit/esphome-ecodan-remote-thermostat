@@ -77,7 +77,7 @@ packages:
 
 * Build
 ```console
-esphome ecodan-remote-thermostat-esphome.yaml
+esphome compile ecodan-remote-thermostat-esphome.yaml
 ```
 * To find the tty* where the esp32 is connected at, use `sudo dmesg | grep tty`. On my machine it was `ttyACM0` for usb-c, and `ttyUSB0` for usb-a. On a Mac its `tty.usbmodemxxx`
 * Connect your esp32 via usb and flash
