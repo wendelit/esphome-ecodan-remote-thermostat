@@ -90,7 +90,7 @@ esphome upload --device ip_address ecodan-remote-thermostat-esphome.yaml
 ```
 
 # Installation
-Power down your unit (use circuit breaker!) and plug the flashed unit into the CNRF port. It's near the regular CN105 port. Turn `SW1-8` to on to enable the remote thermostat. Restore the power and select the remote thermostat as thermostat.
+Power down your unit (use circuit breaker!) and plug the flashed unit into the CNRF port. It's near the regular CN105 port. Turn `SW1-8` to on to enable the remote thermostat. Restore the power and select the remote thermostat as thermostat. If you are using `IN1` port, you probably need to disable it via `SW2-1`
 
 The esphome component will be auto detected in Home Assistant. In Home Assistant you need to enable actions. See https://esphome.io/components/api.html#actions
 Perform the following steps:
@@ -112,6 +112,34 @@ You can manually test (if everything is correct) by performing the following ste
   3. Fill the temperature field and click perform action
 ```
 
-Your thermostat is then updated with the new temperature.
+Your thermostat is then updated with the new temperature. 
+
+# example: link a climate to the remote thermostat
+In this example the climate.kantoor `current_temperature` attribute is linked as remote thermostat `0`. The `current_temperature` attribute is synced to the remote thermostat on value change only.
+
+```yaml
+- id: SyncTemperatureToRemoteThermostat
+  alias: Sync temp to remote thermostat
+  trigger:
+    - trigger: state
+      entity_id:
+        - climate.kantoor
+  conditions:
+    - condition: template
+      value_template: "{{ trigger.from_state.currennt_temperature != trigger.to_state.current_temperature }}"
+  actions:
+    - action: esphome.ecodan_thermostat_set_climate_temperature_room_0
+      data:
+        temperature: "{{ state_attr('climate.kantoor' , 'current_temperature') }}"
+```
+
+Paste this into a file `automations.yaml` in the `config` folder of home assistant. Include the `automations.yaml` in home assistant by adding the line below in `configuration.yaml`.
+```yaml
+automation: !include automations.yaml
+```
+In the 'Developers tools/Check and restart' tab click 'check configuration' and if all is okay click restart (quick reload is fine).
+
+To link another remote thermostat, just duplicate the yaml above in the `automations.yaml` file and give it a unique `id`. Don't forget to adjust the room number in `esphome.ecodan_thermostat_set_climate_temperature_room_x` to match your remote thermostat number.
+
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/gekkekoe)
