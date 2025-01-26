@@ -1,12 +1,26 @@
 #pragma once
 #include <string>
 
+#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
+
 namespace esphome {
 namespace ecodan 
 {    
 
     struct Status
     {
+        enum class RCMASK : uint8_t
+        {
+            RC0 = 0x01,
+            RC1 = 0x02,
+            RC2 = 0x04,
+            RC3 = 0x08,
+            RC4 = 0x10,
+            RC5 = 0x20,
+            RC6 = 0x40,
+            RC7 = 0x80
+        };
+
         enum class HpMode : uint8_t
         {
             OFF = 255,
@@ -33,11 +47,13 @@ namespace ecodan
         HpMode HeatingCoolingMode = HpMode::OFF;
         OperationMode Operation = OperationMode::UNAVAILABLE;
         
+        // default RC0
+        RCMASK RcMask = RCMASK::RC0;
+
         float Zone1SetTemperature{NAN};
         float Zone2SetTemperature{NAN};
 
-        // default first two temp sensors to 20c to prevent initial p1 errors on slow units
-        float CurrentRoomTemperatures[8] = { 20.0f, 20.0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+        float CurrentRoomTemperatures[8] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
         float TargetRoomTemperatures[8] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
         void set_operation_mode(uint8_t mode)
@@ -48,7 +64,7 @@ namespace ecodan
         void set_heating_cooling_mode(uint8_t mode)
         {
             HeatingCoolingMode = static_cast<HpMode>(mode);
-        }        
+        }
     };
 
 } // namespace ecodan

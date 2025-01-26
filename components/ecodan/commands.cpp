@@ -7,7 +7,7 @@
 
 namespace esphome {
 namespace ecodan 
-{    
+{       
     void EcodanHeatpump::set_room_thermostat_target_temp(float temp, ClimateRoomIdentifier room) {
         if (temp != NAN) {
             auto room_index = static_cast<uint8_t>(room);
@@ -15,7 +15,7 @@ namespace ecodan
 
             Message cmd{MsgType::THERMOSTAT_SET, SetType::THERMOSTAT_TEMPERATURE_SETTINGS};
             for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
-                if (i + i == room_index) {
+                if (CHECK_BIT(static_cast<uint8_t>(status.RcMask), i)){
                     auto roundedTemp = round_nearest_half(status.TargetRoomTemperatures[i]);
                     cmd.set_float8_v3(roundedTemp, 1+i);
                 }
@@ -33,11 +33,41 @@ namespace ecodan
         return dispatch_next_cmd();
     }
 
+    void EcodanHeatpump::update_room_mask(uint8_t room_identifier) {
+        auto room = static_cast<ClimateRoomIdentifier>(room_identifier);
+        switch(room) {
+            case ClimateRoomIdentifier::ROOM_0:
+                status.RcMask |= Status::RCMASK::RC0;
+            break;
+            case ClimateRoomIdentifier::ROOM_1:
+                status.RcMask |= Status::RCMASK::RC1;
+            break;
+            case ClimateRoomIdentifier::ROOM_2:
+                status.RcMask |= Status::RCMASK::RC2;
+            break;
+            case ClimateRoomIdentifier::ROOM_3:
+                status.RcMask |= Status::RCMASK::RC3;
+            break;
+            case ClimateRoomIdentifier::ROOM_4:
+                status.RcMask |= Status::RCMASK::RC4;
+            break;
+            case ClimateRoomIdentifier::ROOM_5:
+                status.RcMask |= Status::RCMASK::RC5;
+            break;
+            case ClimateRoomIdentifier::ROOM_6:
+                status.RcMask |= Status::RCMASK::RC6;
+            break;
+            case ClimateRoomIdentifier::ROOM_7:
+                status.RcMask |= Status::RCMASK::RC7;
+            break;
+        }
+    }
+
     #define MAX_STATUS_CMD_SIZE 2
     Message statusCmdQueue[MAX_STATUS_CMD_SIZE] = {
         // initial request
-        //Message{MsgType::THERMOSTAT_INITIAL_GET, GetType::THERMOSTAT_STATE_A},
-        Message{MsgType::THERMOSTAT_INITIAL_GET, std::array<char, PAYLOAD_SIZE> { static_cast<char>(GetType::THERMOSTAT_STATE_A), 0x03, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
+        Message{MsgType::THERMOSTAT_INITIAL_GET, GetType::THERMOSTAT_STATE_A},
+        //Message{MsgType::THERMOSTAT_INITIAL_GET, std::array<char, PAYLOAD_SIZE> { static_cast<char>(GetType::THERMOSTAT_STATE_A), 0x03, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
         Message{MsgType::THERMOSTAT_GET, GetType::THERMOSTAT_STATE_B} 
     };
 
@@ -50,18 +80,27 @@ namespace ecodan
         Message& cmd = statusCmdQueue[cmdIndex];
         cmdIndex = (cmdIndex + 1) % MAX_STATUS_CMD_SIZE;
 
-        if (cmd.type() == MsgType::THERMOSTAT_GET) {
+        if (cmd.type() == MsgType::THERMOSTAT_INITIAL_GET) {
+            cmd[1] = static_cast<uint8_t>(status.RcMask);
+            cmd[2] = 0xff;
+        } else if (cmd.type() == MsgType::THERMOSTAT_GET) {
             // fill all current thermostat values
             for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
-                if (status.CurrentRoomTemperatures[i] != 0xff) {
-                    auto roundedTemp = round_nearest_half(status.CurrentRoomTemperatures[i]);
-                    cmd.set_float8_v3(roundedTemp, 1+i);
+                if (CHECK_BIT(static_cast<uint8_t>(status.RcMask), i)){
+                    if (status.CurrentRoomTemperatures[i] != 0xff) {
+                        auto roundedTemp = round_nearest_half(status.CurrentRoomTemperatures[i]);
+                        cmd.set_float8_v3(roundedTemp, 1+i);
+                    }
+                    else {
+                        // default 20c if sensor did not have a valid value to prevent P1 errors
+                        cmd.set_float8_v3(20.0f, 1+i);
+                    }
                 }
                 else {
                     cmd[1+i] = 0xff;
                 }
             }
-            cmd[9] = 3;
+            cmd[9] = static_cast<uint8_t>(status.RcMask);
             cmd[10] = 0xff;
         }
 

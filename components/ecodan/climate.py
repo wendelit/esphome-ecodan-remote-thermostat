@@ -11,7 +11,7 @@ AUTO_LOAD = ["ecodan"]
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        #cv.GenerateID(CONF_ECODAN_ID): cv.use_id(ECODAN), 
+        cv.GenerateID(CONF_ECODAN_ID): cv.use_id(ECODAN),
         cv.Optional("heatpump_climate_room_0"): climate.CLIMATE_SCHEMA.extend(
             {
                 cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CLIMATE),
@@ -96,7 +96,7 @@ CONFIG_SCHEMA = cv.Schema(
 
 
 async def to_code(config):
-    #hp = await cg.get_variable(config[CONF_ECODAN_ID])
+    hp = await cg.get_variable(config[CONF_ECODAN_ID])
 
     for key, conf in config.items():
         if not isinstance(conf, dict):
@@ -116,6 +116,7 @@ async def to_code(config):
                 cg.add(inst.set_thermostat_climate_mode(True))
             if "room_identifier" in conf:
                 cg.add(inst.set_room_identifier(conf["room_identifier"]))
-
+                cg.add(hp.update_room_mask(conf["room_identifier"]))
+                
             await cg.register_component(inst, conf)
             await climate.register_climate(inst, conf)

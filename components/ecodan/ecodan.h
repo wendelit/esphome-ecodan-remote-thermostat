@@ -41,6 +41,7 @@ namespace ecodan
         }
 
         // exposed as external component commands
+        void update_room_mask(uint8_t room_identifier);
         void set_room_thermostat_target_temp(float temp, ClimateRoomIdentifier room);
         void set_room_thermostat_current_temp(float temp, uint8_t room);
         
