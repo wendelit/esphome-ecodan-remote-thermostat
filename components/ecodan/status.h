@@ -36,8 +36,8 @@ namespace ecodan
         float Zone1SetTemperature{NAN};
         float Zone2SetTemperature{NAN};
 
-        // default first temp to 0c to prevent initial p1 errors on slow units
-        float CurrentRoomTemperatures[8] = { 0.0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+        // default first two temp sensors to 20c to prevent initial p1 errors on slow units
+        float CurrentRoomTemperatures[8] = { 20.0f, 20.0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
         float TargetRoomTemperatures[8] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
         void set_operation_mode(uint8_t mode)

@@ -46,7 +46,7 @@
 * S - Timer/prohibit setting
   * 0 : no restriction
   * 4 : timer mode heating
-  * 5 : start delay ? (when switching from hot water to heating)
+  * 5 : prohibit dhw | timer mode heating
   * 6 : prohibit heating
 
   
