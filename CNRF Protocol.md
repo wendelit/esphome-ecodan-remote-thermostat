@@ -23,7 +23,7 @@
 # Reply inital settings (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |Pwr| O | Z1| OP|   |   | S |   |?  |   |?  | O2| Z2|OP2|   |CHK| 
+|SYN|TYP|   |   | SZ|CMD |Pwr| O | Z1| OP|   |   | S |   |?  |   |?  |O2?| Z2|Z2RC|   |CHK| 
 |fc |6c | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |ac | 0 | a4| 2 | 0 |5f |
 * Pwr - Power
   * 0 : Standby
@@ -48,6 +48,7 @@
   * 4 : timer mode heating
   * 5 : prohibit dhw | timer mode heating
   * 6 : prohibit heating
+* Z2RC: RC master id for zone 2 (1 - 8)
 
   
 * assumes there are holiday mode and forced hot water status in here too
@@ -64,7 +65,7 @@
 # Normal Reply (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |Pwr| O |z1 | OP| HW|HOL| T |   |   |EC | O2|Z2 |OP2 |   |   |CHK|
+|SYN|TYP|   |   | SZ|CMD |Pwr| O |z1 | OP| HW|HOL| T |   |   |EC |O2?|Z2 |Z2RC|   |   |CHK|
 |fc |68 | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |0  | a4| 2 | 0 | 0 | f |    (During normal op state)
 |fc |68 | 4 | 3 |10 | 0  | 1 | 0 | a2| 0 | 0 | 0 | 5 | 0 |21 |90 |0  | a2| 2 | 0 | 0 | 84|    (During Error 1 State/J0 on FTC)
 |fc |68 | 4 | 3 | 10 | 0 | 1 | 1 | a2| 0 | 1 | 0 | 5 | 0 |21 | 0 |0  | a2| 2 | 0 | 0 |12 |    (During Hot Water Boost)
@@ -91,6 +92,7 @@
 * Z1/Z2A : Zone 1/2 Active Input Temperature?
 * HW : Hot Water Boost Active
 * EC : Error Code?
+* Z2RC: RC master id for zone 2 (1 - 8)
 
 # Set Request Temperature (Wireless > CNRF)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2  | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
