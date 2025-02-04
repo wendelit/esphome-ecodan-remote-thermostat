@@ -13,15 +13,28 @@ namespace ecodan
             auto room_index = static_cast<uint8_t>(room);
             status.TargetRoomTemperatures[room_index] = temp;
 
-            Message cmd{MsgType::THERMOSTAT_SET, SetType::THERMOSTAT_TEMPERATURE_SETTINGS};
+            Message cmd{MsgType::THERMOSTAT_TARGET_TEMP_SET, SetType::THERMOSTAT_TEMPERATURE_SETTINGS};
+            
+            // set new target temp
+            cmd.set_float8_v3(round_nearest_half(status.TargetRoomTemperatures[room_index]), 1);
+            
+            // include current temps in msg
             for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
                 if (CHECK_BIT(static_cast<uint8_t>(status.RcMask), i)){
-                    auto roundedTemp = round_nearest_half(status.TargetRoomTemperatures[i]);
-                    cmd.set_float8_v3(roundedTemp, 1+i);
+                    auto roundedTemp = round_nearest_half(status.CurrentRoomTemperatures[i]);
+                    cmd.set_float8_v3(roundedTemp, 2+i);
+                    
                 }
                 else {
-                    cmd[1+i] = 0xff;
+                    cmd[2+i] = 0xff;
                 }
+            }
+            cmd[11] = static_cast<uint8_t>(status.RcMask);
+            cmd[12] = 0xff;
+
+            // for z2 writes, we need to enable byte 14
+            if (status.RcMasterZone2 != 0x0 && room_index+1 == status.RcMasterZone2) {
+                cmd[14] = 1;   
             }
             schedule_cmd(cmd);
         }
@@ -68,7 +81,7 @@ namespace ecodan
         // initial request
         Message{MsgType::THERMOSTAT_INITIAL_GET, GetType::THERMOSTAT_STATE_A},
         //Message{MsgType::THERMOSTAT_INITIAL_GET, std::array<char, PAYLOAD_SIZE> { static_cast<char>(GetType::THERMOSTAT_STATE_A), 0x03, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
-        Message{MsgType::THERMOSTAT_GET, GetType::THERMOSTAT_STATE_B} 
+        Message{MsgType::THERMOSTAT_CURRENT_TEMP_SET, GetType::THERMOSTAT_STATE_B} 
     };
 
     bool EcodanHeatpump::dispatch_next_status_cmd()
@@ -83,7 +96,7 @@ namespace ecodan
         if (cmd.type() == MsgType::THERMOSTAT_INITIAL_GET) {
             cmd[1] = static_cast<uint8_t>(status.RcMask);
             cmd[2] = 0xff;
-        } else if (cmd.type() == MsgType::THERMOSTAT_GET) {
+        } else if (cmd.type() == MsgType::THERMOSTAT_CURRENT_TEMP_SET) {
             // fill all current thermostat values
             for (auto i = 0; i < MAX_REMOTE_THERMOSTATS; i++) {
                 if (CHECK_BIT(static_cast<uint8_t>(status.RcMask), i)){

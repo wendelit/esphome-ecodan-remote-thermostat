@@ -88,7 +88,7 @@ namespace ecodan
         bool schedule_cmd(Message& cmd);
         
         void handle_response(Message& res);
-        void handle_get_response(Message& res);
+        void handle_initial_get_response(Message& res);
         void handle_set_response(Message& res);
         void handle_connect_response(Message& res);
 

@@ -47,6 +47,9 @@ namespace ecodan
         HpMode HeatingCoolingMode = HpMode::OFF;
         OperationMode Operation = OperationMode::UNAVAILABLE;
         
+        uint8_t RcMasterZone1 = 0x0;
+        uint8_t RcMasterZone2 = 0x0;
+        
         // default RC0
         RCMASK RcMask = RCMASK::RC0;
 
@@ -64,6 +67,15 @@ namespace ecodan
         void set_heating_cooling_mode(uint8_t mode)
         {
             HeatingCoolingMode = static_cast<HpMode>(mode);
+        }
+
+        void update_target_temperatures() {
+            if (RcMasterZone1 >= 1 && RcMasterZone1 <= 8) {
+                TargetRoomTemperatures[RcMasterZone1 - 1] = Zone1SetTemperature;
+            }
+            if (RcMasterZone2 >= 1 && RcMasterZone2 <= 8) {
+                TargetRoomTemperatures[RcMasterZone2 - 1] = Zone2SetTemperature;
+            }
         }
     };
 

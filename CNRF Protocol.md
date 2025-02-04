@@ -65,7 +65,7 @@
 # Normal Reply (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |Pwr| O |z1 | OP| HW|HOL| T |   |   |EC |O2?|Z2 |Z2RC|   |   |CHK|
+|SYN|TYP|   |   | SZ|CMD |Pwr| O |z1 | OP| HW|HOL| T |   |RCS|EC |O2?|Z2 |Z2RC|   |   |CHK|
 |fc |68 | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |0  | a4| 2 | 0 | 0 | f |    (During normal op state)
 |fc |68 | 4 | 3 |10 | 0  | 1 | 0 | a2| 0 | 0 | 0 | 5 | 0 |21 |90 |0  | a2| 2 | 0 | 0 | 84|    (During Error 1 State/J0 on FTC)
 |fc |68 | 4 | 3 | 10 | 0 | 1 | 1 | a2| 0 | 1 | 0 | 5 | 0 |21 | 0 |0  | a2| 2 | 0 | 0 |12 |    (During Hot Water Boost)
@@ -93,6 +93,11 @@
 * HW : Hot Water Boost Active
 * EC : Error Code?
 * Z2RC: RC master id for zone 2 (1 - 8)
+* RCS: Main thermistor selection
+  * 0xff : 1111 1111 TH1 (this prevents current temp syncs)
+  * 0xf1 : 1111 0001 RC1 for Z1 (current temp for Z2 is not synced)
+  * 0xf2 : 1111 0010 RC2 for Z1 (current temp for Z2 is not synced)
+  * 0x21 : 0010 0001 (RC1 for Z1 and RC2 for Z2 ?)
 
 # Set Request Temperature (Wireless > CNRF)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2  | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
@@ -124,7 +129,7 @@
 # Reply Request Hot Water (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |   |   |Z1 |   | HW |   | ? |   |?  |   |?  |   | z2| ? |   |CHK| 
+|SYN|TYP|   |   | SZ|CMD |   |   |Z1 |   | HW |   | ? |  |RCS|   |?  |   | z2| ? |   |CHK| 
 |fc |6a | 4 | 3 |10 | 0  | 1 | 1 | a2| 0 | 1 | 0 | 5 | 0 |21 | 0 |0  | 0 | a2| 2 | 0 |10 |
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
@@ -134,7 +139,7 @@
 # Reply Request Holiday (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |   |   |Z1 |   | HW|HOL| ? |   |?  |   |?  | z2| ? |  |   |CHK| 
+|SYN|TYP|   |   | SZ|CMD |   |   |Z1 |   | HW|HOL| ? |   |RCS|   |?  | z2| ? |  |   |CHK| 
 |fc |6b | 4 | 3 |10 | 0  | 1 | 0 | a5| 0 | 0 | 1 | 5 | 0 |21 | 0 |0  | a2 | 2 | 0 | 0 |10 |
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
@@ -144,7 +149,7 @@
 # Set Reply (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |   |   |z1 |   |   |   | ? |   |   |   |   |z2 |   |   |   |CHK| 
+|SYN|TYP|   |   | SZ|CMD |   |   |z1 |   |   |   | ? |   |RCS|   |   |z2 |   |   |   |CHK| 
 |fc |69 | 4 | 3 |10 | 0  | 1 |2  |a3 |0  |0  |0  | 5 |0  | 21| 0 | 0 | a4| 2 | 0 | 0 | e |
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
