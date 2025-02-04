@@ -23,21 +23,21 @@
 # Reply inital settings (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |Pwr| O | Z1| OM|   |   | S |   |?  |   |?  |   | z2| ? |   |CHK| 
+|SYN|TYP|   |   | SZ|CMD |Pwr| O | Z1| OP|   |   | S |   |?  |   |?  | O2| Z2|OP2|   |CHK| 
 |fc |6c | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |ac | 0 | a4| 2 | 0 |5f |
 * Pwr - Power
   * 0 : Standby
   * 1 : On
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
-* O Operation
+* O/O2 - Operation
   * 0 : Off
   * 1 : Hot Water On
   * 2 : Heating On
   * 3 : Cooling On
   * 5 : Frost Protect
   * 6 : Legionella
-* OP - Operation Mode: 
+* OP/OP2 - Operation Mode: 
   * 0 : Temperature Mode (heating)
   * 1 : Flow Control Mode (heating)
   * 2 : Compensation Curve Mode
@@ -64,7 +64,7 @@
 # Normal Reply (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |Pwr| O |z1 | OP| HW |   | ? |   |   |EC |   |z2 |Z2A? |   |   |CHK|
+|SYN|TYP|   |   | SZ|CMD |Pwr| O |z1 | OP| HW|   | ? |   |   |EC | O2|Z2 |OP2 |   |   |CHK|
 |fc |68 | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |0  | a4| 2 | 0 | 0 | f |    (During normal op state)
 |fc |68 | 4 | 3 |10 | 0  | 1 | 0 | a2| 0 | 0 | 0 | 5 | 0 |21 |90 |0  | a2| 2 | 0 | 0 | 84|    (During Error 1 State/J0 on FTC)
 |fc |68 | 4 | 3 | 10 | 0 | 1 | 1 | a2| 0 | 1 | 0 | 5 | 0 |21 | 0 |0  | a2| 2 | 0 | 0 |12 |    (During Hot Water Boost)
@@ -73,14 +73,14 @@
   * 1 : On
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
-* O Operation
+* O/O2 - Operation
   * 0 : Off
   * 1 : Hot Water On
   * 2 : Heating On
   * 3 : Cooling On
   * 5 : Frost Protect
   * 6 : Legionella
-* OP - Operation Mode: 
+* OP/OP2 - Operation Mode: 
   * 0 : Temperature Mode (heating)
   * 1 : Flow Control Mode (heating)
   * 2 : Compensation Curve Mode
