@@ -23,7 +23,7 @@
 # Reply inital settings (CNRF > Wireless)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2 | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
 |---|---|---|---|---|----|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|SYN|TYP|   |   | SZ|CMD |Pwr| O | Z1| OP|   |   | S |   |?  |   |?  |O2?| Z2|Z2RC|   |CHK| 
+|SYN|TYP|   |   | SZ|CMD |Pwr| O | Z1| OP|   |   | S |   |RCS|   |?  |O2?| Z2|Z2RC|   |CHK| 
 |fc |6c | 4 | 3 |10 | 0  | 1 | 2 | a3| 0 | 0 | 0 | 5 | 0 |21 | 0 |ac | 0 | a4| 2 | 0 |5f |
 * Pwr - Power
   * 0 : Standby
@@ -49,7 +49,12 @@
   * 5 : prohibit dhw | timer mode heating
   * 6 : prohibit heating
 * Z2RC: RC master id for zone 2 (1 - 8)
-
+* RCS: Main thermistor selection
+  * 0xff : 1111 1111 TH1 (this prevents current temp syncs)
+  * 0xf1 : 1111 0001 RC1 for Z1 (current temp for Z2 is not synced)
+  * 0xf2 : 1111 0010 RC2 for Z1 (current temp for Z2 is not synced)
+  * 0x21 : 0010 0001 (RC1 for Z1 and RC2 for Z2)
+  * 0x12 : 0001 0010 (RC2 for Z1 and RC1 for Z2)
   
 * assumes there are holiday mode and forced hot water status in here too
 
@@ -97,7 +102,8 @@
   * 0xff : 1111 1111 TH1 (this prevents current temp syncs)
   * 0xf1 : 1111 0001 RC1 for Z1 (current temp for Z2 is not synced)
   * 0xf2 : 1111 0010 RC2 for Z1 (current temp for Z2 is not synced)
-  * 0x21 : 0010 0001 (RC1 for Z1 and RC2 for Z2 ?)
+  * 0x21 : 0010 0001 (RC1 for Z1 and RC2 for Z2)
+  * 0x12 : 0001 0010 (RC2 for Z1 and RC1 for Z2)
 
 # Set Request Temperature (Wireless > CNRF)
 | 0 | 1 | 2 | 3 | 4 | 0  | 1 | 2  | 3 | 4 |5  |6  | 7 |8  | 9 | 10|11 |12 |13 |14 |15 |16 |
@@ -134,6 +140,12 @@
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
 * HW : Hot Water Boost
+* RCS: Main thermistor selection
+  * 0xff : 1111 1111 TH1 (this prevents current temp syncs)
+  * 0xf1 : 1111 0001 RC1 for Z1 (current temp for Z2 is not synced)
+  * 0xf2 : 1111 0010 RC2 for Z1 (current temp for Z2 is not synced)
+  * 0x21 : 0010 0001 (RC1 for Z1 and RC2 for Z2)
+  * 0x12 : 0001 0010 (RC2 for Z1 and RC1 for Z2)
 * assumes there are holiday mode and forced hot water status in here too
 
 # Reply Request Holiday (CNRF > Wireless)
@@ -144,6 +156,12 @@
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
 * HW : Hot Water Boost
+* RCS: Main thermistor selection
+  * 0xff : 1111 1111 TH1 (this prevents current temp syncs)
+  * 0xf1 : 1111 0001 RC1 for Z1 (current temp for Z2 is not synced)
+  * 0xf2 : 1111 0010 RC2 for Z1 (current temp for Z2 is not synced)
+  * 0x21 : 0010 0001 (RC1 for Z1 and RC2 for Z2)
+  * 0x12 : 0010 0001 (RC2 for Z1 and RC1 for Z2)
 * assumes there are holiday mode and forced hot water status in here too
 
 # Set Reply (CNRF > Wireless)
@@ -153,6 +171,12 @@
 |fc |69 | 4 | 3 |10 | 0  | 1 |2  |a3 |0  |0  |0  | 5 |0  | 21| 0 | 0 | a4| 2 | 0 | 0 | e |
 * z1 : Zone 1 Setpoint
 * z2 : Zone 2 Setpoint
+* RCS: Main thermistor selection
+  * 0xff : 1111 1111 TH1 (this prevents current temp syncs)
+  * 0xf1 : 1111 0001 RC1 for Z1 (current temp for Z2 is not synced)
+  * 0xf2 : 1111 0010 RC2 for Z1 (current temp for Z2 is not synced)
+  * 0x21 : 0010 0001 (RC1 for Z1 and RC2 for Z2)
+  * 0x12 : 0001 0010 (RC2 for Z1 and RC1 for Z2)
 * assumes there are holiday mode and forced hot water status here too
 
 
