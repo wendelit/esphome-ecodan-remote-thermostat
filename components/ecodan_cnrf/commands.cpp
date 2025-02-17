@@ -6,7 +6,7 @@
 #include <queue>
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 {       
     void EcodanHeatpump::set_room_thermostat_target_temp(float temp, ClimateRoomIdentifier room) {
         if (temp != NAN) {

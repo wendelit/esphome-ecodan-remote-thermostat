@@ -1,7 +1,7 @@
 #include "ecodan.h"
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 {
     bool EcodanHeatpump::serial_tx(uart::UARTComponent *uart, Message& msg)
     {

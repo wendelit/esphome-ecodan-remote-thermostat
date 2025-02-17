@@ -1,7 +1,7 @@
 #include "ecodan.h"
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 { 
     static auto last_proxy_activity = std::chrono::steady_clock::now();
     bool proxy_timedout() {
@@ -17,5 +17,5 @@ namespace ecodan
         return proxy_uart_ && !proxy_timedout();
     }
 
-} // namespace ecodan
+} // namespace ecodan_cnrf
 } // namespace esphome

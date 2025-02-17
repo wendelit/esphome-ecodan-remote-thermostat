@@ -16,7 +16,7 @@
 #include "status.h"
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 {    
     static constexpr const char *TAG = "ecodan.component";   
 
@@ -127,5 +127,5 @@ namespace ecodan
         std::chrono::time_point<std::chrono::steady_clock> last_update;
     };    
 
-} // namespace ecodan
+} // namespace ecodan_cnrf
 } // namespace esphome

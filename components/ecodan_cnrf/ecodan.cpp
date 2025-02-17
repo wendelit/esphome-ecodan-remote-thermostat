@@ -1,7 +1,7 @@
 #include "ecodan.h"
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 { 
     void EcodanHeatpump::setup() {
         heatpumpInitialized = initialize();
@@ -172,5 +172,5 @@ namespace ecodan
         return connected;
     }
 
-} // namespace ecodan
+} // namespace ecodan_cnrf
 } // namespace esphome

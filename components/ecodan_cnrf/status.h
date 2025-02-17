@@ -4,7 +4,7 @@
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 {    
 
     struct Status
@@ -79,5 +79,5 @@ namespace ecodan
         }
     };
 
-} // namespace ecodan
+} // namespace ecodan_cnrf
 } // namespace esphome

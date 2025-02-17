@@ -1,7 +1,7 @@
 #include "ecodan.h"
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 { 
     void EcodanClimate::setup() {
         // restore all climate data, if possible
@@ -198,5 +198,5 @@ namespace ecodan
         }
     }
 
-} // namespace ecodan
+} // namespace ecodan_cnrf
 } // namespace esphome

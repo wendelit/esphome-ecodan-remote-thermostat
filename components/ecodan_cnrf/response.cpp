@@ -3,7 +3,7 @@
 #include <algorithm>
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 {
     void EcodanHeatpump::handle_initial_get_response(Message& res)
     {

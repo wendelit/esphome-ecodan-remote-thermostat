@@ -3,7 +3,7 @@
 #include <array>
 
 namespace esphome {
-namespace ecodan 
+namespace ecodan_cnrf 
 {
     enum class ClimateRoomIdentifier : uint8_t
     {
@@ -451,5 +451,5 @@ namespace ecodan
         uint8_t buffer_[HEADER_SIZE_B + PAYLOAD_SIZE + sizeof(uint8_t)];
         uint8_t writeOffset_ = 0;
     };
-} // namespace ecodan
+} // namespace ecodan_cnrf
 } // namespace esphome
