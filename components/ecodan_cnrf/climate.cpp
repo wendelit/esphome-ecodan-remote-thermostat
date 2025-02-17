@@ -63,8 +63,8 @@ namespace ecodan_cnrf
 
         switch (status.Operation)
         {
-            case Status::OperationMode::HEAT_ON:
-            case Status::OperationMode::FROST_PROTECT:     
+            case ecodan::Status::OperationMode::HEAT_ON:
+            case ecodan::Status::OperationMode::FROST_PROTECT:     
                 new_action = climate::CLIMATE_ACTION_HEATING;    
                 break;
             case ecodan::Status::OperationMode::COOL_ON:              
