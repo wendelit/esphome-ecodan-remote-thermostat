@@ -7,7 +7,7 @@ from esphome.const import (
 )
 
 from . import ECODAN, CONF_ECODAN_ID, ECODAN_CLIMATE
-AUTO_LOAD = ["ecodan"]
+AUTO_LOAD = ["ecodan_cnrf"]
 
 CONFIG_SCHEMA = cv.Schema(
     {
