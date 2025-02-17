@@ -17,7 +17,7 @@ UARTComponent = uart_ns.class_("UARTComponent")
 hub_ns = cg.esphome_ns.namespace('ecodan_cnrf')
 
 ECODAN_CNRF = hub_ns.class_('EcodanHeatpump', cg.PollingComponent)
-ECODAN_CLIMATE_CNRF = hub_ns.class_('EcodanClimate', climate.Climate, cg.PollingComponent, uart.UARTDevice)
+ECODAN_CLIMATE = hub_ns.class_('EcodanClimate', climate.Climate, cg.PollingComponent, uart.UARTDevice)
 
 CONFIG_SCHEMA = cv.Schema(
     {
