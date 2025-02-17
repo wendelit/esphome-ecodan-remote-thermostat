@@ -104,7 +104,7 @@ async def to_code(config):
         id = conf.get("id")
         if id and id.type == climate.Climate:
             inst = cg.new_Pvariable(conf[CONF_ID])
-            cg.add(inst.set_status(cg.RawExpression(f'[=](void) -> const ecodan::Status& {{ {conf["get_status_func"]} }}')))
+            cg.add(inst.set_status(cg.RawExpression(f'[=](void) -> const ecodan_cnrf::Status& {{ {conf["get_status_func"]} }}')))
             cg.add(inst.set_target_temp_func(cg.RawExpression(f'[=](float x){{ {conf["target_temp_func"]} }}')))
             cg.add(inst.set_get_target_temp_func(cg.RawExpression(f'[=](void) -> float {{ {conf["get_target_temp_func"]} }}')))
 
