@@ -14,7 +14,7 @@ CONF_PROXY_UART_ID = "proxy_uart_id"
 uart_ns = cg.esphome_ns.namespace("uart")
 UARTComponent = uart_ns.class_("UARTComponent")
 
-hub_ns = cg.esphome_ns.namespace('ecodan_cnrf')
+hub_ns = cg.esphome_ns.namespace('ecodan')
 
 ECODAN_CNRF = hub_ns.class_('EcodanHeatpump', cg.PollingComponent)
 ECODAN_CLIMATE = hub_ns.class_('EcodanClimate', climate.Climate, cg.PollingComponent, uart.UARTDevice)
