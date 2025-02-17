@@ -14,14 +14,14 @@ CONF_PROXY_UART_ID = "proxy_uart_id"
 uart_ns = cg.esphome_ns.namespace("uart")
 UARTComponent = uart_ns.class_("UARTComponent")
 
-hub_ns = cg.esphome_ns.namespace('ecodan')
+hub_ns = cg.esphome_ns.namespace('ecodan_cnrf')
 
-ECODAN_CNRF = hub_ns.class_('EcodanHeatpump', cg.PollingComponent)
+ECODAN = hub_ns.class_('EcodanHeatpump', cg.PollingComponent)
 ECODAN_CLIMATE = hub_ns.class_('EcodanClimate', climate.Climate, cg.PollingComponent, uart.UARTDevice)
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(CONF_ID): cv.declare_id(ECODAN_CNRF),
+        cv.GenerateID(CONF_ID): cv.declare_id(ECODAN),
         cv.Optional(CONF_PROXY_UART_ID): cv.use_id(UARTComponent),
     }
     ).extend(cv.polling_component_schema('3000ms')
