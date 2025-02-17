@@ -42,38 +42,38 @@ namespace ecodan_cnrf
         auto room = static_cast<uint8_t>(this->climate_room_identifier);
 
         switch (status.HeatingCoolingMode) {
-            case ecodan::Status::HpMode::HEAT_ROOM_TEMP:
-            case ecodan::Status::HpMode::HEAT_FLOW_TEMP:
-            case ecodan::Status::HpMode::HEAT_COMPENSATION_CURVE:
+            case ecodan_cnrf::Status::HpMode::HEAT_ROOM_TEMP:
+            case ecodan_cnrf::Status::HpMode::HEAT_FLOW_TEMP:
+            case ecodan_cnrf::Status::HpMode::HEAT_COMPENSATION_CURVE:
                 if (allow_refresh && this->mode != climate::ClimateMode::CLIMATE_MODE_HEAT) {
                     this->mode = climate::ClimateMode::CLIMATE_MODE_HEAT;
                     should_publish = true;
                 }
             break;
-            case ecodan::Status::HpMode::COOL_ROOM_TEMP:
-            case ecodan::Status::HpMode::COOL_FLOW_TEMP:
+            case ecodan_cnrf::Status::HpMode::COOL_ROOM_TEMP:
+            case ecodan_cnrf::Status::HpMode::COOL_FLOW_TEMP:
                 if (allow_refresh && this->mode != climate::ClimateMode::CLIMATE_MODE_COOL) {
                     this->mode = climate::ClimateMode::CLIMATE_MODE_COOL;
                     should_publish = true;
                 }
             break;                    
-        case ecodan::Status::HpMode::OFF:
+        case ecodan_cnrf::Status::HpMode::OFF:
             break;
         }
 
         switch (status.Operation)
         {
-            case ecodan::Status::OperationMode::HEAT_ON:
-            case ecodan::Status::OperationMode::FROST_PROTECT:     
+            case ecodan_cnrf::Status::OperationMode::HEAT_ON:
+            case ecodan_cnrf::Status::OperationMode::FROST_PROTECT:     
                 new_action = climate::CLIMATE_ACTION_HEATING;    
                 break;
-            case ecodan::Status::OperationMode::COOL_ON:              
+            case ecodan_cnrf::Status::OperationMode::COOL_ON:              
                 new_action = climate::CLIMATE_ACTION_COOLING;       
                 break;
-            case ecodan::Status::OperationMode::UNAVAILABLE:
-            case ecodan::Status::OperationMode::OFF:
-            case ecodan::Status::OperationMode::DHW_ON:
-            case ecodan::Status::OperationMode::LEGIONELLA_PREVENTION:
+            case ecodan_cnrf::Status::OperationMode::UNAVAILABLE:
+            case ecodan_cnrf::Status::OperationMode::OFF:
+            case ecodan_cnrf::Status::OperationMode::DHW_ON:
+            case ecodan_cnrf::Status::OperationMode::LEGIONELLA_PREVENTION:
                 break;
         }
 
